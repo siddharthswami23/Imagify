@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 const NavBar = () => {
-  const [User, setUser] = useState(null);
+  const { User, setUser } = useContext(AppContext);
   const Navigate = useNavigate();
   return (
     <div className="flex justify-between items-center py-4 ">
