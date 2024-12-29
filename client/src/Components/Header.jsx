@@ -1,5 +1,6 @@
 import React from "react";
 import { assets } from "../assets/assets";
+import GenerateButton from "./GenerateButton";
 
 const Header = () => {
   return (
@@ -15,9 +16,7 @@ const Header = () => {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, deleniti?
         repudiandae rerum!
       </p>
-      <button className="text-white bg-black w-auto mt-8 px-12 py-3 flex items-center gap-2 rounded-full">
-        Generate Images <img className="h-6 " src={assets.star_group} alt="" />
-      </button>
+      <GenerateButton />
 
       <div className="flex flex-wrap justify-center gap-3 mt-12">
         {Array(6)
