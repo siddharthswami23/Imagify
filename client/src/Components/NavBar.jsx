@@ -3,7 +3,7 @@ import { assets } from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 const NavBar = () => {
-  const { User, setUser } = useContext(AppContext);
+  const { User, setUser, ShowLogin, setShowLogin } = useContext(AppContext);
   const Navigate = useNavigate();
   return (
     <div className="flex justify-between items-center py-4 ">
@@ -36,7 +36,10 @@ const NavBar = () => {
           <p onClick={() => Navigate("/buy")} className="cursor-pointer">
             Pricing
           </p>
-          <button className="bg-zinc-800 text-white px-7 py-2 text-sm rounded-full">
+          <button
+            onClick={() => setShowLogin((prev) => !prev)}
+            className="bg-zinc-800 text-white px-7 py-2 text-sm rounded-full"
+          >
             Log In
           </button>
         </div>
