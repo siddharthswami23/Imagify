@@ -1,14 +1,35 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
 
 const Result = () => {
-  const [image, setimage] = useState(assets.sample_img_1);
-  const [isImageLoaded, setisImageLoaded] = useState(false);
-  const [isLoading, setisLoading] = useState(false);
-  const [input, setinput] = useState("");
+  const [image, setImage] = useState(assets.sample_img_1);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [input, setInput] = useState("");
+
+  const { generateImage } = useContext(AppContext);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    if (input) {
+      try {
+        const generatedImage = await generateImage(input);
+
+        if (generatedImage) {
+          setImage(generatedImage);
+          setIsImageLoaded(true);
+        } else {
+          console.error("Image generation failed, no image returned.");
+        }
+      } catch (error) {
+        console.error("Error generating image:", error);
+      }
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -20,7 +41,7 @@ const Result = () => {
         <div className="overflow-hidden rounded-lg shadow-md">
           <img
             src={image}
-            alt="Sample Preview"
+            alt="Generated Preview"
             className="w-full h-auto rounded-lg"
           />
           <span
@@ -43,7 +64,7 @@ const Result = () => {
           Image Description
         </label>
         <input
-          onChange={(e) => setinput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
           value={input}
           type="text"
           id="description"
@@ -58,10 +79,15 @@ const Result = () => {
       >
         Generate Image
       </button>
+
       {isImageLoaded && (
         <div className="flex gap-5">
           <button
-            onClick={() => setisImageLoaded(false)}
+            onClick={() => {
+              setInput("")
+              setImage(assets.sample_img_1)
+              setIsImageLoaded(false);
+            }}
             type="button"
             className="w-1/2 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-full font-semibold shadow-lg hover:from-green-600 hover:to-teal-700 transition"
           >
@@ -70,7 +96,7 @@ const Result = () => {
 
           <a
             href={image}
-            type="button"
+            download
             className="w-1/2 py-3 bg-gradient-to-r from-purple-500 to-pink-600 text-center text-white rounded-full font-semibold shadow-lg hover:from-purple-600 hover:to-pink-700 transition"
           >
             Download
